@@ -135,6 +135,22 @@
             line-height: 1.6;
         }
 
+        .glow-green {
+            color: #10b981;
+            text-shadow: 0 0 10px rgba(16, 185, 129, 0.6),
+                         0 0 20px rgba(16, 185, 129, 0.4),
+                         0 0 30px rgba(16, 185, 129, 0.2);
+            font-weight: 700;
+        }
+
+        .glow-yellow {
+            color: #fbbf24;
+            text-shadow: 0 0 10px rgba(251, 191, 36, 0.6),
+                         0 0 20px rgba(251, 191, 36, 0.4),
+                         0 0 30px rgba(251, 191, 36, 0.2);
+            font-weight: 700;
+        }
+
         .hero-cta {
             display: flex;
             gap: 20px;
@@ -891,11 +907,11 @@
                     MASTER TRADING
                     <span class="highlight">LIKE A PRO</span>
                 </h1>
-                <p>Get personalized 1-on-1 mentorship and lifetime access to our exclusive trading community. Learn proven strategies from experienced traders.</p>
+                <p>Get a <span class="glow-yellow">1-on-1 mentorship call</span> and <span class="glow-green">lifetime</span> access to our <span class="glow-yellow">local</span> trading community. Learn proven strategies from experienced traders.</p>
                 <div class="hero-cta">
                     <a href="#cta" class="primary-button open-modal">Start Learning</a>
                     <div class="price-tag">
-                        Only <span>$250</span>
+                        <span>$250</span>
                     </div>
                 </div>
             </div>
@@ -1085,9 +1101,8 @@
             en: {
                 heroTitle1: "MASTER TRADING",
                 heroTitle2: "LIKE A PRO",
-                heroDescription: "Get personalized 1-on-1 mentorship and lifetime access to our exclusive trading community. Learn proven strategies from experienced traders.",
+                heroDescription: "Get a <span class=\"glow-yellow\">1-on-1 mentorship call</span> and <span class=\"glow-green\">lifetime</span> access to our <span class=\"glow-yellow\">local</span> trading community. Learn proven strategies from experienced traders.",
                 heroButton: "Start Learning",
-                priceLabel: "Only",
                 statCard1Label: "Monthly Returns",
                 statCard2Label: "Active Traders",
                 statCard3Label: "Win Rate",
@@ -1126,9 +1141,8 @@
             fr: {
                 heroTitle1: "MAÎTRISEZ LE TRADING",
                 heroTitle2: "COMME UN PRO",
-                heroDescription: "Obtenez un mentorat personnalisé 1-à-1 et un accès à vie à notre communauté de trading exclusive. Apprenez des stratégies éprouvées de traders expérimentés.",
+                heroDescription: "Obtenez un <span class=\"glow-yellow\">appel de mentorat 1-à-1</span> et un accès <span class=\"glow-green\">à vie</span> à notre communauté de trading <span class=\"glow-yellow\">locale</span>. Apprenez des stratégies éprouvées de traders expérimentés.",
                 heroButton: "Commencer",
-                priceLabel: "Seulement",
                 statCard1Label: "Rendements Mensuels",
                 statCard2Label: "Traders Actifs",
                 statCard3Label: "Taux de Réussite",
@@ -1190,9 +1204,9 @@
             
             // Hero section
             document.querySelector('.hero-content h1').innerHTML = `${t.heroTitle1}<br><span class="highlight">${t.heroTitle2}</span>`;
-            document.querySelector('.hero-content p').textContent = t.heroDescription;
+            document.querySelector('.hero-content p').innerHTML = t.heroDescription;
             document.querySelector('.hero-cta .open-modal').textContent = t.heroButton;
-            document.querySelector('.price-tag').innerHTML = `${t.priceLabel} <span>$250</span>`;
+            document.querySelector('.price-tag').innerHTML = `<span>$250</span>`;
             
             // Floating stat cards
             const statLabels = document.querySelectorAll('.stat-label');
