@@ -1,0 +1,1323 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UPNEXT - Master Trading with 1-on-1 Mentorship</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            overflow-x: hidden;
+            background: #000000;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Navigation */
+        nav {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 30px 0;
+            position: relative;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .logo img {
+            height: 320px;
+            width: auto;
+        }
+
+        .logo-star {
+            display: none;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 40px;
+            align-items: center;
+            position: absolute;
+            right: 0;
+        }
+
+        .nav-links a {
+            color: rgba(255, 255, 255, 0.9);
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            font-size: 16px;
+        }
+
+        .nav-links a:hover {
+            color: white;
+            transform: translateY(-2px);
+        }
+
+        .ig-icon {
+            width: 45px;
+            height: 45px;
+            background: transparent;
+            border: 2px solid white;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+
+        .ig-icon:hover {
+            transform: translateY(-3px);
+            background: white;
+        }
+
+        .ig-icon svg {
+            width: 26px;
+            height: 26px;
+            fill: white;
+            transition: all 0.3s ease;
+        }
+
+        .ig-icon:hover svg {
+            fill: #000000;
+        }
+
+        .cta-button {
+            display: none;
+        }
+
+        /* Hero Section */
+        .hero {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            align-items: center;
+            padding: 20px 0;
+            min-height: auto;
+        }
+
+        .hero-content h1 {
+            font-size: 72px;
+            font-weight: 900;
+            color: white;
+            line-height: 1.1;
+            margin-bottom: 15px;
+            letter-spacing: -2px;
+        }
+
+        .hero-content h1 .highlight {
+            background: linear-gradient(45deg, #ffffff, #e0e0e0);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            display: block;
+        }
+
+        .hero-content p {
+            font-size: 20px;
+            color: rgba(255, 255, 255, 0.9);
+            margin-bottom: 25px;
+            line-height: 1.6;
+        }
+
+        .hero-cta {
+            display: flex;
+            gap: 20px;
+            align-items: center;
+        }
+
+        .primary-button {
+            background: white;
+            color: black;
+            padding: 18px 40px;
+            border-radius: 50px;
+            font-weight: 700;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            box-shadow: 0 8px 30px rgba(255, 255, 255, 0.3);
+            font-size: 18px;
+        }
+
+        .primary-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 40px rgba(255, 255, 255, 0.4);
+        }
+
+        .price-tag {
+            color: white;
+            font-size: 18px;
+            font-weight: 600;
+        }
+
+        .price-tag span {
+            font-size: 32px;
+            font-weight: 900;
+            color: #ffffff;
+        }
+
+        /* Hero Visual */
+        .hero-visual {
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 450px;
+        }
+
+        .chart-container {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            background: rgba(10, 10, 10, 0.8);
+            backdrop-filter: blur(10px);
+            border-radius: 30px;
+            padding: 40px;
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 40px;
+            overflow: hidden;
+        }
+
+        .background-candles {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 70%;
+            display: flex;
+            align-items: flex-end;
+            justify-content: center;
+            gap: 8px;
+            opacity: 0.3;
+            z-index: 0;
+            padding: 0 40px;
+        }
+
+        .bg-candle {
+            width: 18px;
+            background: linear-gradient(to top, #10b981, #059669);
+            border-radius: 3px;
+            animation: candleRise 2s ease-in-out infinite;
+        }
+
+        .bg-candle:nth-child(1) { height: 40%; animation-delay: 0s; }
+        .bg-candle:nth-child(2) { height: 60%; animation-delay: 0.2s; }
+        .bg-candle:nth-child(3) { height: 45%; animation-delay: 0.4s; }
+        .bg-candle:nth-child(4) { height: 75%; animation-delay: 0.6s; }
+        .bg-candle:nth-child(5) { height: 55%; animation-delay: 0.8s; }
+        .bg-candle:nth-child(6) { height: 80%; animation-delay: 1s; }
+        .bg-candle:nth-child(7) { height: 65%; animation-delay: 1.2s; }
+        .bg-candle:nth-child(8) { height: 85%; animation-delay: 1.4s; }
+        .bg-candle:nth-child(9) { height: 70%; animation-delay: 1.6s; }
+        .bg-candle:nth-child(10) { height: 90%; animation-delay: 1.8s; }
+
+        @keyframes candleRise {
+            0%, 100% {
+                transform: scaleY(0.95);
+                opacity: 0.5;
+            }
+            50% {
+                transform: scaleY(1.05);
+                opacity: 0.8;
+            }
+        }
+
+        .trade-buttons {
+            display: flex;
+            gap: 30px;
+            z-index: 10;
+        }
+
+        .trade-button {
+            padding: 20px 50px;
+            font-size: 24px;
+            font-weight: 700;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .trade-button:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.4);
+        }
+
+        .trade-button:active {
+            transform: translateY(-2px);
+        }
+
+        .long-button {
+            background: #10b981;
+            color: white;
+        }
+
+        .short-button {
+            background: #ef4444;
+            color: white;
+        }
+
+        .emoji-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .falling-emoji {
+            position: absolute;
+            font-size: 40px;
+            animation: fall linear forwards;
+            opacity: 0;
+        }
+
+        @keyframes fall {
+            0% {
+                opacity: 1;
+                transform: translateY(0) rotate(0deg);
+            }
+            100% {
+                opacity: 0;
+                transform: translateY(600px) rotate(360deg);
+            }
+        }
+
+        .candle {
+            display: none;
+        }
+
+        .chart-grid {
+            display: none;
+        }
+
+        .chart-overlay {
+            display: none;
+        }
+
+        .chart-price {
+            display: none;
+        }
+
+        .candle {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: relative;
+            animation: candleGrow 0.8s ease-out forwards;
+            opacity: 0;
+            transition: transform 0.2s ease;
+        }
+
+        .candle:hover {
+            transform: scale(1.1);
+        }
+
+        @keyframes candleGrow {
+            from {
+                transform: scaleY(0);
+                opacity: 0;
+            }
+            to {
+                transform: scaleY(1);
+                opacity: 1;
+            }
+        }
+
+        .candle-wick {
+            width: 2px;
+            background: currentColor;
+            position: absolute;
+        }
+
+        .candle-body {
+            width: 16px;
+            border-radius: 3px;
+            position: relative;
+            z-index: 1;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+        }
+
+        .candle.green .candle-body {
+            background: #10b981;
+            border: 1px solid #059669;
+        }
+
+        .candle.green .candle-wick {
+            color: #10b981;
+        }
+
+        .candle.red .candle-body {
+            background: #ef4444;
+            border: 1px solid #dc2626;
+        }
+
+        .candle.red .candle-wick {
+            color: #ef4444;
+        }
+
+        .chart-grid {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            padding: 40px;
+            pointer-events: none;
+        }
+
+        .grid-line {
+            width: 100%;
+            height: 1px;
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .chart-overlay {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 12px;
+            font-weight: 600;
+            letter-spacing: 1px;
+        }
+
+        .chart-price {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            color: #10b981;
+            font-size: 24px;
+            font-weight: 900;
+            font-family: 'Courier New', monospace;
+        }
+
+        .floating-card {
+            position: absolute;
+            background: white;
+            padding: 20px 30px;
+            border-radius: 20px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+            animation: float 3s ease-in-out infinite;
+        }
+
+        .card-1 {
+            top: 10%;
+            right: -10%;
+            animation-delay: 0s;
+        }
+
+        .card-2 {
+            bottom: 15%;
+            left: -10%;
+            animation-delay: 1s;
+        }
+
+        .card-3 {
+            top: 50%;
+            right: -5%;
+            animation-delay: 2s;
+        }
+
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0px);
+            }
+            50% {
+                transform: translateY(-20px);
+            }
+        }
+
+        .stat-number {
+            font-size: 36px;
+            font-weight: 900;
+            color: #000000;
+            margin-bottom: 5px;
+        }
+
+        .stat-label {
+            font-size: 14px;
+            color: #666;
+            font-weight: 600;
+        }
+
+        .positive {
+            color: #10b981;
+        }
+
+        /* Features Section */
+        .features {
+            background: white;
+            padding: 60px 0;
+            margin-top: 40px;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 48px;
+            font-weight: 900;
+            margin-bottom: 15px;
+            color: #1a1a1a;
+        }
+
+        .section-subtitle {
+            text-align: center;
+            font-size: 20px;
+            color: #666;
+            margin-bottom: 40px;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 40px;
+            margin-top: 30px;
+        }
+
+        .feature-card {
+            padding: 40px;
+            border-radius: 20px;
+            background: #f8f9fa;
+            transition: all 0.3s ease;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+        }
+
+        .feature-icon {
+            width: 60px;
+            height: 60px;
+            background: #000000;
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 30px;
+            margin-bottom: 20px;
+        }
+
+        .feature-card h3 {
+            font-size: 24px;
+            margin-bottom: 15px;
+            color: #1a1a1a;
+        }
+
+        .feature-card p {
+            color: #666;
+            line-height: 1.6;
+            font-size: 16px;
+        }
+
+        /* Social Proof */
+        .social-proof {
+            background: #0a0a0a;
+            padding: 60px 0;
+            color: white;
+            text-align: center;
+        }
+
+        .testimonials {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+            margin-top: 30px;
+        }
+
+        .testimonial {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 40px;
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .testimonial-text {
+            font-size: 16px;
+            line-height: 1.8;
+            margin-bottom: 20px;
+            font-style: italic;
+        }
+
+        .testimonial-author {
+            font-weight: 600;
+            color: #ffffff;
+        }
+
+        /* Final CTA */
+        .final-cta {
+            background: white;
+            padding: 60px 0;
+            text-align: center;
+        }
+
+        .cta-box {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 60px;
+            background: #000000;
+            border-radius: 30px;
+            color: white;
+            border: 2px solid #ffffff;
+        }
+
+        .cta-box h2 {
+            font-size: 48px;
+            margin-bottom: 20px;
+            font-weight: 900;
+        }
+
+        .cta-box p {
+            font-size: 20px;
+            margin-bottom: 40px;
+            opacity: 0.9;
+        }
+
+        .cta-box .primary-button {
+            background: white;
+            color: #000000;
+            font-size: 20px;
+            padding: 20px 50px;
+        }
+
+        .lead-form {
+            max-width: 500px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            text-align: left;
+        }
+
+        .form-group label {
+            font-weight: 600;
+            font-size: 16px;
+            color: white;
+        }
+
+        .form-group input,
+        .form-group textarea {
+            padding: 15px 20px;
+            border-radius: 12px;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            font-size: 16px;
+            font-family: inherit;
+            transition: all 0.3s ease;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: white;
+            background: rgba(255, 255, 255, 0.15);
+        }
+
+        .form-group input::placeholder,
+        .form-group textarea::placeholder {
+            color: rgba(255, 255, 255, 0.5);
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 120px;
+        }
+
+        .submit-button {
+            background: white;
+            color: #000000;
+            padding: 18px 40px;
+            border-radius: 50px;
+            font-weight: 700;
+            font-size: 18px;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 10px;
+        }
+
+        .submit-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 30px rgba(255, 255, 255, 0.3);
+        }
+
+        /* Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(10px);
+            animation: fadeIn 0.3s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .modal.active {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-content {
+            background: #000000;
+            border: 2px solid white;
+            border-radius: 30px;
+            padding: 50px;
+            max-width: 600px;
+            width: 90%;
+            position: relative;
+            animation: slideUp 0.3s ease;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+
+        @keyframes slideUp {
+            from {
+                transform: translateY(50px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: white;
+            color: black;
+            border: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            font-size: 24px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+
+        .modal-close:hover {
+            transform: rotate(90deg);
+            background: #ef4444;
+            color: white;
+        }
+
+        .modal h2 {
+            color: white;
+            font-size: 36px;
+            margin-bottom: 10px;
+        }
+
+        .modal p {
+            color: rgba(255, 255, 255, 0.8);
+            margin-bottom: 30px;
+        }
+
+        /* Language Toggle */
+        .lang-toggle {
+            position: absolute;
+            top: 30px;
+            left: 20px;
+            z-index: 100;
+            display: flex;
+            gap: 10px;
+            background: rgba(0, 0, 0, 0.8);
+            padding: 10px 15px;
+            border-radius: 50px;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .lang-btn {
+            background: transparent;
+            border: none;
+            color: rgba(255, 255, 255, 0.6);
+            font-weight: 700;
+            font-size: 14px;
+            cursor: pointer;
+            padding: 5px 15px;
+            border-radius: 20px;
+            transition: all 0.3s ease;
+        }
+
+        .lang-btn.active {
+            background: white;
+            color: black;
+        }
+
+        .lang-btn:hover {
+            color: white;
+        }
+
+        /* Mobile Menu */
+        .mobile-menu-toggle {
+            display: none;
+            background: none;
+            border: none;
+            color: white;
+            font-size: 28px;
+            cursor: pointer;
+        }
+
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .hero {
+                grid-template-columns: 1fr;
+                padding: 40px 0;
+            }
+
+            .hero-content h1 {
+                font-size: 56px;
+            }
+
+            .hero-visual {
+                height: 400px;
+            }
+
+            .features-grid,
+            .testimonials {
+                grid-template-columns: 1fr;
+            }
+
+            .floating-card {
+                display: none;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+
+            .mobile-menu-toggle {
+                display: block;
+            }
+
+            .brand-center {
+                display: none;
+            }
+
+            .hero-content h1 {
+                font-size: 42px;
+            }
+
+            .hero-content p {
+                font-size: 18px;
+            }
+
+            .hero-cta {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .section-title {
+                font-size: 36px;
+            }
+
+            .cta-box {
+                padding: 40px 30px;
+            }
+
+            .cta-box h2 {
+                font-size: 36px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <nav>
+            <div class="logo">
+                <img src="https://i.imgur.com/7U4hofF.png" alt="UPNEXT">
+            </div>
+            <div class="nav-links">
+                <a href="https://www.instagram.com/benji.tr11/" target="_blank" class="ig-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                        <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
+                    </svg>
+                </a>
+            </div>
+            <button class="mobile-menu-toggle">☰</button>
+        </nav>
+
+        <section class="hero">
+            <div class="hero-content">
+                <h1>
+                    MASTER TRADING
+                    <span class="highlight">LIKE A PRO</span>
+                </h1>
+                <p>Get personalized 1-on-1 mentorship and lifetime access to our exclusive trading community. Learn proven strategies from experienced traders.</p>
+                <div class="hero-cta">
+                    <a href="#cta" class="primary-button open-modal">Start Learning</a>
+                    <div class="price-tag">
+                        Only <span>$250</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="hero-visual">
+                <div class="chart-container" id="tradeContainer">
+                    <div class="background-candles">
+                        <div class="bg-candle"></div>
+                        <div class="bg-candle"></div>
+                        <div class="bg-candle"></div>
+                        <div class="bg-candle"></div>
+                        <div class="bg-candle"></div>
+                        <div class="bg-candle"></div>
+                        <div class="bg-candle"></div>
+                        <div class="bg-candle"></div>
+                        <div class="bg-candle"></div>
+                        <div class="bg-candle"></div>
+                    </div>
+                    <div class="emoji-container" id="emojiContainer"></div>
+                    <div class="trade-buttons">
+                        <button class="trade-button long-button" id="longButton">Long</button>
+                        <button class="trade-button short-button" id="shortButton">Short</button>
+                    </div>
+                </div>
+                <div class="floating-card card-1">
+                    <div class="stat-number positive">+127%</div>
+                    <div class="stat-label">Monthly Returns</div>
+                </div>
+                <div class="floating-card card-2">
+                    <div class="stat-number">200+</div>
+                    <div class="stat-label">Active Traders</div>
+                </div>
+                <div class="floating-card card-3">
+                    <div class="stat-number positive">96%</div>
+                    <div class="stat-label">Win Rate</div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <section class="features" id="features">
+        <div class="container">
+            <h2 class="section-title">Everything You Need to Succeed</h2>
+            <p class="section-subtitle">Comprehensive trading education and ongoing support</p>
+
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">👤</div>
+                    <h3>1-on-1 Mentorship</h3>
+                    <p>Personalized guidance from experienced traders who understand your goals and challenges. Get direct feedback on your trades and strategies.</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">🌐</div>
+                    <h3>Lifetime Group Access</h3>
+                    <p>Join our exclusive community of traders. Share insights, discuss strategies, and learn from collective experiences 24/7.</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">📈</div>
+                    <h3>Proven Strategies</h3>
+                    <p>Learn battle-tested trading strategies that have generated consistent profits across different market conditions.</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">⚡</div>
+                    <h3>Real-Time Signals</h3>
+                    <p>Get instant trade alerts and market analysis. Never miss a profitable opportunity with our active signal system.</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">📚</div>
+                    <h3>Complete Resources</h3>
+                    <p>Access our full library of trading guides, video tutorials, and strategy breakdowns. Everything you need in one place.</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">🎯</div>
+                    <h3>Risk Management</h3>
+                    <p>Master the art of protecting your capital. Learn professional risk management techniques to sustain long-term profitability.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="social-proof" id="proof">
+        <div class="container">
+            <h2 class="section-title" style="color: white;">How It Works</h2>
+            <p class="section-subtitle" style="color: rgba(255,255,255,0.7);">Get started in 3 simple steps</p>
+
+            <div class="testimonials">
+                <div class="testimonial">
+                    <div style="font-size: 60px; margin-bottom: 20px;">1️⃣</div>
+                    <h3 style="font-size: 24px; font-weight: 700; margin-bottom: 15px; color: white;">Join UPNEXT</h3>
+                    <p class="testimonial-text">Pay $250 one-time fee to unlock lifetime access to 1-on-1 mentorship and our exclusive trading community.</p>
+                </div>
+
+                <div class="testimonial">
+                    <div style="font-size: 60px; margin-bottom: 20px;">2️⃣</div>
+                    <h3 style="font-size: 24px; font-weight: 700; margin-bottom: 15px; color: white;">Choose Your Platform</h3>
+                    <p class="testimonial-text">Select your preferred crypto leverage trading platform (Bybit, Binance, OKX, etc.) and set up your account.</p>
+                </div>
+
+                <div class="testimonial">
+                    <div style="font-size: 60px; margin-bottom: 20px;">3️⃣</div>
+                    <h3 style="font-size: 24px; font-weight: 700; margin-bottom: 15px; color: white;">Start Trading</h3>
+                    <p class="testimonial-text">Learn proven strategies, get real-time signals, and receive personalized guidance to become a profitable trader.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="final-cta" id="cta">
+        <div class="container">
+            <div class="cta-box">
+                <h2 class="cta-title">Ready to Transform Your Trading?</h2>
+                <p class="cta-description">Join hundreds of successful traders who made the decision to invest in themselves. One-time payment, lifetime access.</p>
+                <button class="primary-button open-modal">Get Started for $250</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Language Toggle -->
+    <div class="lang-toggle">
+        <button class="lang-btn active" data-lang="en">EN</button>
+        <button class="lang-btn" data-lang="fr">FR</button>
+    </div>
+
+    <!-- Lead Capture Modal -->
+    <div id="leadModal" class="modal">
+        <div class="modal-content">
+            <button class="modal-close" id="closeModal">&times;</button>
+            <h2 class="modal-title">Ready to Transform Your Trading?</h2>
+            <p class="modal-description">Fill out the form below to get started with lifetime access for just $250.</p>
+            
+            <form class="lead-form" action="https://formspree.io/f/mykkevdr" method="POST">
+                <div class="form-group">
+                    <label for="name" class="form-label-name">Your Name</label>
+                    <input type="text" id="name" name="name" placeholder="Enter your name" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="email" class="form-label-email">Your Email</label>
+                    <input type="email" id="email" name="email" placeholder="Enter your email" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="message" class="form-label-message">Tell us about your trading experience (optional)</label>
+                    <textarea id="message" name="message" placeholder="Share your experience level, goals, or any questions..."></textarea>
+                </div>
+                
+                <input type="hidden" name="_subject" value="New UPNEXT Lead - $250 Program">
+                
+                <button type="submit" class="submit-button submit-text">Get Started for $250</button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // Modal functionality
+        const modal = document.getElementById('leadModal');
+        const openModalBtns = document.querySelectorAll('.open-modal');
+        const closeModalBtn = document.getElementById('closeModal');
+
+        openModalBtns.forEach(btn => {
+            btn.addEventListener('click', function(e) {
+                e.preventDefault();
+                modal.classList.add('active');
+                document.body.style.overflow = 'hidden';
+            });
+        });
+
+        closeModalBtn.addEventListener('click', function() {
+            modal.classList.remove('active');
+            document.body.style.overflow = 'auto';
+        });
+
+        modal.addEventListener('click', function(e) {
+            if (e.target === modal) {
+                modal.classList.remove('active');
+                document.body.style.overflow = 'auto';
+            }
+        });
+
+        // Language toggle
+        const translations = {
+            en: {
+                heroTitle1: "MASTER TRADING",
+                heroTitle2: "LIKE A PRO",
+                heroDescription: "Get personalized 1-on-1 mentorship and lifetime access to our exclusive trading community. Learn proven strategies from experienced traders.",
+                heroButton: "Start Learning",
+                priceLabel: "Only",
+                statCard1Label: "Monthly Returns",
+                statCard2Label: "Active Traders",
+                statCard3Label: "Win Rate",
+                featuresTitle: "Everything You Need to Succeed",
+                featuresSubtitle: "Comprehensive trading education and ongoing support",
+                feature1Title: "1-on-1 Mentorship",
+                feature1Desc: "Personalized guidance from experienced traders who understand your goals and challenges. Get direct feedback on your trades and strategies.",
+                feature2Title: "Lifetime Group Access",
+                feature2Desc: "Join our exclusive community of traders. Share insights, discuss strategies, and learn from collective experiences 24/7.",
+                feature3Title: "Proven Strategies",
+                feature3Desc: "Learn battle-tested trading strategies that have generated consistent profits across different market conditions.",
+                feature4Title: "Real-Time Signals",
+                feature4Desc: "Get instant trade alerts and market analysis. Never miss a profitable opportunity with our active signal system.",
+                feature5Title: "Complete Resources",
+                feature5Desc: "Access our full library of trading guides, video tutorials, and strategy breakdowns. Everything you need in one place.",
+                feature6Title: "Risk Management",
+                feature6Desc: "Master the art of protecting your capital. Learn professional risk management techniques to sustain long-term profitability.",
+                stepsTitle: "How It Works",
+                stepsSubtitle: "Get started in 3 simple steps",
+                step1Title: "Join UPNEXT",
+                step1Desc: "Pay $250 one-time fee to unlock lifetime access to 1-on-1 mentorship and our exclusive trading community.",
+                step2Title: "Choose Your Platform",
+                step2Desc: "Select your preferred crypto leverage trading platform (Bybit, Binance, OKX, etc.) and set up your account.",
+                step3Title: "Start Trading",
+                step3Desc: "Learn proven strategies, get real-time signals, and receive personalized guidance to become a profitable trader.",
+                ctaTitle: "Ready to Transform Your Trading?",
+                ctaDescription: "Join hundreds of successful traders who made the decision to invest in themselves. One-time payment, lifetime access.",
+                ctaButton: "Get Started for $250",
+                modalTitle: "Ready to Transform Your Trading?",
+                modalDescription: "Fill out the form below to get started with lifetime access for just $250.",
+                formLabelName: "Your Name",
+                formLabelEmail: "Your Email",
+                formLabelMessage: "Tell us about your trading experience (optional)",
+                submitButton: "Get Started for $250"
+            },
+            fr: {
+                heroTitle1: "MAÎTRISEZ LE TRADING",
+                heroTitle2: "COMME UN PRO",
+                heroDescription: "Obtenez un mentorat personnalisé 1-à-1 et un accès à vie à notre communauté de trading exclusive. Apprenez des stratégies éprouvées de traders expérimentés.",
+                heroButton: "Commencer",
+                priceLabel: "Seulement",
+                statCard1Label: "Rendements Mensuels",
+                statCard2Label: "Traders Actifs",
+                statCard3Label: "Taux de Réussite",
+                featuresTitle: "Tout ce dont vous avez besoin pour réussir",
+                featuresSubtitle: "Formation complète en trading et soutien continu",
+                feature1Title: "Mentorat 1-à-1",
+                feature1Desc: "Guidance personnalisée de traders expérimentés qui comprennent vos objectifs et défis. Recevez des commentaires directs sur vos transactions et stratégies.",
+                feature2Title: "Accès au Groupe à Vie",
+                feature2Desc: "Rejoignez notre communauté exclusive de traders. Partagez des idées, discutez des stratégies et apprenez d'expériences collectives 24/7.",
+                feature3Title: "Stratégies Éprouvées",
+                feature3Desc: "Apprenez des stratégies de trading testées qui ont généré des profits constants dans différentes conditions de marché.",
+                feature4Title: "Signaux en Temps Réel",
+                feature4Desc: "Recevez des alertes de trading instantanées et des analyses de marché. Ne manquez jamais une opportunité rentable avec notre système de signaux actifs.",
+                feature5Title: "Ressources Complètes",
+                feature5Desc: "Accédez à notre bibliothèque complète de guides de trading, tutoriels vidéo et analyses de stratégies. Tout ce dont vous avez besoin en un seul endroit.",
+                feature6Title: "Gestion des Risques",
+                feature6Desc: "Maîtrisez l'art de protéger votre capital. Apprenez des techniques professionnelles de gestion des risques pour maintenir une rentabilité à long terme.",
+                stepsTitle: "Comment ça marche",
+                stepsSubtitle: "Commencez en 3 étapes simples",
+                step1Title: "Rejoignez UPNEXT",
+                step1Desc: "Payez des frais uniques de 250$ pour débloquer l'accès à vie au mentorat 1-à-1 et à notre communauté de trading exclusive.",
+                step2Title: "Choisissez Votre Plateforme",
+                step2Desc: "Sélectionnez votre plateforme de trading crypto avec effet de levier préférée (Bybit, Binance, OKX, etc.) et configurez votre compte.",
+                step3Title: "Commencez à Trader",
+                step3Desc: "Apprenez des stratégies éprouvées, recevez des signaux en temps réel et bénéficiez de conseils personnalisés pour devenir un trader rentable.",
+                ctaTitle: "Prêt à Transformer Votre Trading?",
+                ctaDescription: "Rejoignez des centaines de traders à succès qui ont décidé d'investir en eux-mêmes. Paiement unique, accès à vie.",
+                ctaButton: "Commencer pour 250$",
+                modalTitle: "Prêt à Transformer Votre Trading?",
+                modalDescription: "Remplissez le formulaire ci-dessous pour commencer avec un accès à vie pour seulement 250$.",
+                formLabelName: "Votre Nom",
+                formLabelEmail: "Votre Email",
+                formLabelMessage: "Parlez-nous de votre expérience en trading (optionnel)",
+                submitButton: "Commencer pour 250$"
+            }
+        };
+
+        const langBtns = document.querySelectorAll('.lang-btn');
+        let currentLang = 'en';
+
+        langBtns.forEach(btn => {
+            btn.addEventListener('click', function() {
+                const lang = this.dataset.lang;
+                if (lang !== currentLang) {
+                    currentLang = lang;
+                    
+                    // Update active button
+                    langBtns.forEach(b => b.classList.remove('active'));
+                    this.classList.add('active');
+                    
+                    // Update content
+                    updateContent(lang);
+                }
+            });
+        });
+
+        function updateContent(lang) {
+            const t = translations[lang];
+            
+            // Hero section
+            document.querySelector('.hero-content h1').innerHTML = `${t.heroTitle1}<br><span class="highlight">${t.heroTitle2}</span>`;
+            document.querySelector('.hero-content p').textContent = t.heroDescription;
+            document.querySelector('.hero-cta .open-modal').textContent = t.heroButton;
+            document.querySelector('.price-tag').innerHTML = `${t.priceLabel} <span>$250</span>`;
+            
+            // Floating stat cards
+            const statLabels = document.querySelectorAll('.stat-label');
+            statLabels[0].textContent = t.statCard1Label;
+            statLabels[1].textContent = t.statCard2Label;
+            statLabels[2].textContent = t.statCard3Label;
+            
+            // Features section
+            document.querySelectorAll('.section-title')[0].textContent = t.featuresTitle;
+            document.querySelectorAll('.section-subtitle')[0].textContent = t.featuresSubtitle;
+            
+            const featureTitles = document.querySelectorAll('.feature-card h3');
+            const featureDescs = document.querySelectorAll('.feature-card p');
+            
+            featureTitles[0].textContent = t.feature1Title;
+            featureDescs[0].textContent = t.feature1Desc;
+            featureTitles[1].textContent = t.feature2Title;
+            featureDescs[1].textContent = t.feature2Desc;
+            featureTitles[2].textContent = t.feature3Title;
+            featureDescs[2].textContent = t.feature3Desc;
+            featureTitles[3].textContent = t.feature4Title;
+            featureDescs[3].textContent = t.feature4Desc;
+            featureTitles[4].textContent = t.feature5Title;
+            featureDescs[4].textContent = t.feature5Desc;
+            featureTitles[5].textContent = t.feature6Title;
+            featureDescs[5].textContent = t.feature6Desc;
+            
+            // Steps section
+            document.querySelectorAll('.section-title')[1].textContent = t.stepsTitle;
+            document.querySelectorAll('.section-subtitle')[1].textContent = t.stepsSubtitle;
+            
+            const stepTitles = document.querySelectorAll('.testimonial h3');
+            const stepDescs = document.querySelectorAll('.testimonial-text');
+            
+            stepTitles[0].textContent = t.step1Title;
+            stepDescs[0].textContent = t.step1Desc;
+            stepTitles[1].textContent = t.step2Title;
+            stepDescs[1].textContent = t.step2Desc;
+            stepTitles[2].textContent = t.step3Title;
+            stepDescs[2].textContent = t.step3Desc;
+            
+            // CTA section
+            document.querySelector('.cta-title').textContent = t.ctaTitle;
+            document.querySelector('.cta-description').textContent = t.ctaDescription;
+            document.querySelector('.cta-box .open-modal').textContent = t.ctaButton;
+            
+            // Modal
+            document.querySelector('.modal-title').textContent = t.modalTitle;
+            document.querySelector('.modal-description').textContent = t.modalDescription;
+            document.querySelector('.form-label-name').textContent = t.formLabelName;
+            document.querySelector('.form-label-email').textContent = t.formLabelEmail;
+            document.querySelector('.form-label-message').textContent = t.formLabelMessage;
+            document.querySelector('.submit-text').textContent = t.submitButton;
+        }
+
+        // Falling emoji animation
+        function createFallingEmoji(emoji, container) {
+            const emojiEl = document.createElement('div');
+            emojiEl.className = 'falling-emoji';
+            emojiEl.textContent = emoji;
+            
+            // Random horizontal position
+            const randomX = Math.random() * (container.offsetWidth - 50);
+            emojiEl.style.left = randomX + 'px';
+            emojiEl.style.top = '-50px';
+            
+            // Random animation duration (2-4 seconds)
+            const duration = 2 + Math.random() * 2;
+            emojiEl.style.animationDuration = duration + 's';
+            
+            container.appendChild(emojiEl);
+            
+            // Remove emoji after animation completes
+            setTimeout(() => {
+                emojiEl.remove();
+            }, duration * 1000);
+        }
+        
+        // Long button - money emojis falling
+        document.getElementById('longButton').addEventListener('click', function() {
+            const container = document.getElementById('emojiContainer');
+            const moneyEmojis = ['💰', '💵', '💸', '💎', '💴', '💶', '💷', '🤑'];
+            
+            // Create 15 emojis
+            for (let i = 0; i < 15; i++) {
+                setTimeout(() => {
+                    const randomEmoji = moneyEmojis[Math.floor(Math.random() * moneyEmojis.length)];
+                    createFallingEmoji(randomEmoji, container);
+                }, i * 100);
+            }
+        });
+        
+        // Short button - chart down emojis falling
+        document.getElementById('shortButton').addEventListener('click', function() {
+            const container = document.getElementById('emojiContainer');
+            const chartEmojis = ['📉', '📊', '📈', '💔', '🔻', '❌', '💣', '⚠️'];
+            
+            // Create 15 emojis
+            for (let i = 0; i < 15; i++) {
+                setTimeout(() => {
+                    const randomEmoji = chartEmojis[Math.floor(Math.random() * chartEmojis.length)];
+                    createFallingEmoji(randomEmoji, container);
+                }, i * 100);
+            }
+        });
+
+        // Smooth scrolling for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Mobile menu toggle
+        document.querySelector('.mobile-menu-toggle').addEventListener('click', function() {
+            const navLinks = document.querySelector('.nav-links');
+            navLinks.style.display = navLinks.style.display === 'flex' ? 'none' : 'flex';
+        });
+    </script>
+</body>
+</html>
